@@ -12,6 +12,7 @@ Additions to the baseline project:
 - The contacts are sorted by "lastName, firstName".
 - The Save button is only active if the contact can be created or updated.
 - Comprehensive error reporting through a UIAlertController.
+- Confirm that the user is connected to their iCloud account in order to fetch/add/update contacts.
 
 
 ### Technoloy
