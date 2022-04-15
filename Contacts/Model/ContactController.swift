@@ -14,6 +14,8 @@ class ContactController {
     
     var contacts = [Contact]()
     
+    var iCloudIsAvailable = false
+    
     private let privateDB = CKContainer.default().privateCloudDatabase
     
     // MARK: - CRUD
@@ -152,5 +154,13 @@ class ContactController {
     
     func sortContacts() {
         contacts.sort { $0.nameForSort < $1.nameForSort }
+    }
+    
+    func handleICloud(connected: Bool) {
+        if connected == iCloudIsAvailable {
+            return
+        }
+        iCloudIsAvailable = connected
+        NotificationCenter.default.post(name: .iCloudConnectionChanged, object: nil, userInfo: nil)
     }
 }

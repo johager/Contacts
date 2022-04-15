@@ -21,6 +21,7 @@
 		F868D6112809C14D00EC3D30 /* UIView+pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868D6102809C14D00EC3D30 /* UIView+pin.swift */; };
 		F868D6132809D83500EC3D30 /* CKModifyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868D6122809D83500EC3D30 /* CKModifyError.swift */; };
 		F868D6152809E74B00EC3D30 /* UIViewController+errorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868D6142809E74B00EC3D30 /* UIViewController+errorAlert.swift */; };
+		F868D619280A188200EC3D30 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868D618280A188200EC3D30 /* Notification.Name+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		F868D6102809C14D00EC3D30 /* UIView+pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+pin.swift"; sourceTree = "<group>"; };
 		F868D6122809D83500EC3D30 /* CKModifyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKModifyError.swift; sourceTree = "<group>"; };
 		F868D6142809E74B00EC3D30 /* UIViewController+errorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+errorAlert.swift"; sourceTree = "<group>"; };
+		F868D618280A188200EC3D30 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			children = (
 				F868D6122809D83500EC3D30 /* CKModifyError.swift */,
 				F868D60A2809B80000EC3D30 /* ContactError.swift */,
+				F868D618280A188200EC3D30 /* Notification.Name+.swift */,
 				F868D60C2809B83500EC3D30 /* TransactionType.swift */,
 				F868D6102809C14D00EC3D30 /* UIView+pin.swift */,
 				F868D6142809E74B00EC3D30 /* UIViewController+errorAlert.swift */,
@@ -208,6 +211,7 @@
 				F868D60F2809C0B100EC3D30 /* ContactViewController.swift in Sources */,
 				F868D6152809E74B00EC3D30 /* UIViewController+errorAlert.swift in Sources */,
 				F868D6082809B74200EC3D30 /* ContactController.swift in Sources */,
+				F868D619280A188200EC3D30 /* Notification.Name+.swift in Sources */,
 				F868D5EE2809B2E900EC3D30 /* ContactListViewController.swift in Sources */,
 				F868D5EA2809B2E900EC3D30 /* AppDelegate.swift in Sources */,
 				F868D60B2809B80000EC3D30 /* ContactError.swift in Sources */,
@@ -353,7 +357,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Contacts/Contacts.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 37H8X6K6NN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Contacts/Resources/Info.plist;
@@ -382,7 +386,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Contacts/Contacts.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 37H8X6K6NN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Contacts/Resources/Info.plist;

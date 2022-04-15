@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -48,11 +49,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
+        checkICoudAccountStatus() { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let connected):
+                    ContactController.shared.handleICloud(connected: connected)
+                    if !connected {
+                        let message = "You must be signed into your iCloud account in order to use this app."
+                        self.window?.rootViewController?.presentSimpleAlert(title: "Warning", message: message)
+                    }
+                    
+                case .failure(let error):
+                    print("\(#function) - error: \(error)")
+                    self.window?.rootViewController?.presentErrorAlert(for: error)
+                }
+            }
+        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        print("\(#function)")
+    }
+    
+    // MARK: - Misc Methods
+
+    func checkICoudAccountStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
+        
+        CKContainer.default().accountStatus { accountStatus, error in
+            if let error = error {
+                print("Error obtaining iCloud account status: \(error.localizedDescription)\n---\n\(error)")
+                return completion(.failure(error))
+            }
+            
+            completion(.success(accountStatus == .available))
+        }
     }
 }

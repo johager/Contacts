@@ -20,11 +20,18 @@ class ContactViewController: UIViewController {
     var phoneTextField: UITextField!
     var emailTextField: UITextField!
     
+    // MARK: - Init
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleICloudConnectionChanged), name: .iCloudConnectionChanged, object: nil)
     }
     
     // MARK: - View Methods
@@ -138,6 +145,12 @@ class ContactViewController: UIViewController {
         }
     }
     
+    @objc func handleICloudConnectionChanged() {
+        DispatchQueue.main.async {
+            self.saveBarButton.isEnabled = ContactController.shared.iCloudIsAvailable
+        }
+    }
+    
     func setSaveBarButtonIsEnabled(from textField: UITextField) {
         if textField == firstNameTextField {
             saveBarButton.isEnabled = !textFieldIsEmpty(lastNameTextField)
@@ -158,13 +171,17 @@ class ContactViewController: UIViewController {
 extension ContactViewController: UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-
+        
+        guard ContactController.shared.iCloudIsAvailable else { return true }
+        
         setSaveBarButtonIsEnabled(from: textField)
         return true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
+        guard ContactController.shared.iCloudIsAvailable else { return true }
+        
         guard textField == firstNameTextField || textField == lastNameTextField else { return true }
         
         let textFieldText = textField.text != nil ? textField.text! : ""

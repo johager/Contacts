@@ -11,11 +11,18 @@ class ContactListViewController: UIViewController {
 
     // MARK: - Properties
     
+    var addBarButton: UIBarButtonItem!
     let tableView = UITableView()
     
     var contacts: [Contact] { ContactController.shared.contacts }
     
     let cellIdentifier = "contactCell"
+    
+    // MARK: - Init
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Lifecycle
     
@@ -23,6 +30,7 @@ class ContactListViewController: UIViewController {
         super.viewDidLoad()
         setUpViews()
         fetchContacts()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleICloudConnectionChanged), name: .iCloudConnectionChanged, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +43,8 @@ class ContactListViewController: UIViewController {
     func setUpViews() {
         title = "Contacts"
         
-        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButton))
+        addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButton))
+        addBarButton.isEnabled = false
         navigationItem.setRightBarButton(addBarButton, animated: false)
         
         view.backgroundColor = .white
@@ -49,6 +58,8 @@ class ContactListViewController: UIViewController {
     }
     
     func fetchContacts() {
+        guard ContactController.shared.iCloudIsAvailable else { return }
+        
         ContactController.shared.fetchContacts { result in
             DispatchQueue.main.async {
                 switch result {
@@ -68,6 +79,17 @@ class ContactListViewController: UIViewController {
         let contactVC = ContactViewController()
         navigationController?.pushViewController(contactVC, animated: true)
     }
+    
+    @objc func handleICloudConnectionChanged() {
+        DispatchQueue.main.async {
+            let iCloudIsAvailable = ContactController.shared.iCloudIsAvailable
+            self.addBarButton.isEnabled = iCloudIsAvailable
+            
+            if iCloudIsAvailable && self.contacts.count == 0 {
+                self.fetchContacts()
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -86,6 +108,10 @@ extension ContactListViewController: UITableViewDataSource {
         cell.contentConfiguration = config
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return ContactController.shared.iCloudIsAvailable
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
