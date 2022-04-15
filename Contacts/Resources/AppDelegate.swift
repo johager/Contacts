@@ -10,10 +10,10 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        customizeAppearance()
         return true
     }
 
@@ -31,6 +31,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    func customizeAppearance() {
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
 
+        UITableView.appearance().sectionHeaderTopPadding = 0
+        
+        UITextField.appearance().borderStyle = .roundedRect
+        UITextField.appearance().clearButtonMode = .always
+        
+//        UITableView.appearance().separatorColor = Colors.tableViewSeparatorColor
+//        let selectionView = UIView()
+//        selectionView.backgroundColor = Colors.tableViewSelectedBackgroundColor
+//        UITableViewCell.appearance().selectedBackgroundView = selectionView
+    }
 }
-
