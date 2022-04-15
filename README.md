@@ -11,6 +11,7 @@ Additions to the baseline project:
 - There is a firstName and a lastName instead of just a name.
 - The contacts are sorted by "lastName, firstName".
 - The Save button is only active if the contact can be created or updated.
+- Comprehensive error reporting through a UIAlertController.
 
 
 ### Technoloy
