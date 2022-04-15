@@ -44,7 +44,7 @@ class ContactListViewController: UIViewController {
         title = "Contacts"
         
         addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButton))
-        addBarButton.isEnabled = false
+        addBarButton.isEnabled = ContactController.shared.iCloudIsAvailable
         navigationItem.setRightBarButton(addBarButton, animated: false)
         
         view.backgroundColor = .white
