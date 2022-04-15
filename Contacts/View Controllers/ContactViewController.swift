@@ -20,16 +20,6 @@ class ContactViewController: UIViewController {
     var phoneTextField: UITextField!
     var emailTextField: UITextField!
     
-    /*
-    var canSave: Bool {
-        guard let firstName = firstNameTextField.text,
-              let lastName = lastNameTextField.text
-        else { return false }
-        
-        return !firstName.isEmpty || !lastName.isEmpty
-    }
-    */
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -47,6 +37,7 @@ class ContactViewController: UIViewController {
     func makeViews() {
         
         saveBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSaveButton))
+        saveBarButton.isEnabled = false
         navigationItem.setRightBarButton(saveBarButton, animated: false)
         
         view.backgroundColor = .white
@@ -102,12 +93,15 @@ class ContactViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.adjustsFontForContentSizeCategory = true
         textField.placeholder = placeholder
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }
     
     func configureViews() {
         guard let contact = contact else { return }
+        
+        saveBarButton.isEnabled = true
         
         firstNameTextField.text = contact.firstName
         lastNameTextField.text = contact.lastName
@@ -142,5 +136,46 @@ class ContactViewController: UIViewController {
                 self.presentErrorAlert(for: error)
             }
         }
+    }
+    
+    func setSaveBarButtonIsEnabled(from textField: UITextField) {
+        if textField == firstNameTextField {
+            saveBarButton.isEnabled = !textFieldIsEmpty(lastNameTextField)
+        } else {
+            saveBarButton.isEnabled = !textFieldIsEmpty(firstNameTextField)
+        }
+    }
+    
+    func textFieldIsEmpty(_ textField: UITextField) -> Bool {
+        guard let text = textField.text else { return true }
+        return text.isEmpty
+    }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension ContactViewController: UITextFieldDelegate {
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+
+        setSaveBarButtonIsEnabled(from: textField)
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        guard textField == firstNameTextField || textField == lastNameTextField else { return true }
+        
+        let textFieldText = textField.text != nil ? textField.text! : ""
+        let newLength = textFieldText.count - range.length + string.count
+        
+        if newLength > 0 {
+            saveBarButton.isEnabled = true
+        } else {
+            setSaveBarButtonIsEnabled(from: textField)
+        }
+        
+        return true
     }
 }
