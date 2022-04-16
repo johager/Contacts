@@ -136,7 +136,21 @@ class ContactViewController: UIViewController {
     
     @objc func handleICloudConnectionChanged() {
         DispatchQueue.main.async {
-            self.saveBarButton.isEnabled = ContactController.shared.iCloudIsAvailable
+            guard ContactController.shared.iCloudIsAvailable
+            else {
+                self.saveBarButton.isEnabled = false
+                return
+            }
+            
+            guard let firstName = self.firstNameTextField.text,
+                  let lastName = self.lastNameTextField.text,
+                  !firstName.isEmpty || !lastName.isEmpty
+            else {
+                self.saveBarButton.isEnabled = false
+                return
+            }
+            
+            self.saveBarButton.isEnabled = true
         }
     }
     
