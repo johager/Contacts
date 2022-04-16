@@ -53,37 +53,28 @@ class ContactViewController: UIViewController {
         let marginForLabel: CGFloat = 6
         let marginBetweenItems: CGFloat = 18
         
-        let firstNameLabel = label(text: "First Name:")
-        view.addSubview(firstNameLabel)
-        firstNameLabel.pin(top: layoutMarginsGuide.topAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginBetweenItems, 0, 0, 0])
+        addLabel(withText: "First Name:", topPinnedTo: layoutMarginsGuide.topAnchor, and: &firstNameTextField, withPlaceholder: "First Name...", marginBetweenItems: marginBetweenItems, marginForLabel: marginForLabel)
         
-        firstNameTextField = textField(placeholder: "First Name...")
-        view.addSubview(firstNameTextField)
-        firstNameTextField.pin(top: firstNameLabel.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginForLabel, 0, 0, 0])
-
-        let lastNameLabel = label(text: "Last Name:")
-        view.addSubview(lastNameLabel)
-        lastNameLabel.pin(top: firstNameTextField.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginBetweenItems, 0, 0, 0])
+        addLabel(withText: "Last Name:", topPinnedTo: firstNameTextField.bottomAnchor, and: &lastNameTextField, withPlaceholder: "Last Name...", marginBetweenItems: marginBetweenItems, marginForLabel: marginForLabel)
         
-        lastNameTextField = textField(placeholder: "Last Name...")
-        view.addSubview(lastNameTextField)
-        lastNameTextField.pin(top: lastNameLabel.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginForLabel, 0, 0, 0])
-
-        let phoneLabel = label(text: "Phone Number:")
-        view.addSubview(phoneLabel)
-        phoneLabel.pin(top: lastNameTextField.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginBetweenItems, 0, 0, 0])
+        addLabel(withText: "Phone Number:", topPinnedTo: lastNameTextField.bottomAnchor, and: &phoneTextField, withPlaceholder: "123-123-1234", marginBetweenItems: marginBetweenItems, marginForLabel: marginForLabel)
         
-        phoneTextField = textField(placeholder: "123-123-1234")
-        view.addSubview(phoneTextField)
-        phoneTextField.pin(top: phoneLabel.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginForLabel, 0, 0, 0])
-
-        let emailLabel = label(text: "Email Address:")
-        view.addSubview(emailLabel)
-        emailLabel.pin(top: phoneTextField.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginBetweenItems, 0, 0, 0])
+        addLabel(withText: "Email Address:", topPinnedTo: phoneTextField.bottomAnchor, and: &emailTextField, withPlaceholder: "Email Address...", marginBetweenItems: marginBetweenItems, marginForLabel: marginForLabel)
         
-        emailTextField = textField(placeholder: "Email Address...")
-        view.addSubview(emailTextField)
-        emailTextField.pin(top: emailLabel.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginForLabel, 0, 0, 0])
+        emailTextField.keyboardType = .emailAddress
+    }
+    
+    func addLabel(withText text: String, topPinnedTo pin: NSLayoutYAxisAnchor, and textField: inout UITextField?, withPlaceholder placeholder: String, marginBetweenItems: CGFloat, marginForLabel: CGFloat) {
+        
+        let layoutMarginsGuide = view.layoutMarginsGuide
+        
+        let textLabel = label(text: text)
+        view.addSubview(textLabel)
+        textLabel.pin(top: pin, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginBetweenItems, 0, 0, 0])
+        
+        textField = self.textField(placeholder: placeholder)
+        view.addSubview(textField!)
+        textField!.pin(top: textLabel.bottomAnchor, trailing: layoutMarginsGuide.trailingAnchor, bottom: nil, leading: layoutMarginsGuide.leadingAnchor, margin: [marginForLabel, 0, 0, 0])
     }
     
     func label(text: String) -> UILabel {
@@ -91,7 +82,6 @@ class ContactViewController: UIViewController {
         label.font = UIFont.preferredFont(forTextStyle: .footnote)
         label.adjustsFontForContentSizeCategory = true
         label.text = text
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
@@ -101,7 +91,6 @@ class ContactViewController: UIViewController {
         textField.adjustsFontForContentSizeCategory = true
         textField.placeholder = placeholder
         textField.delegate = self
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }
     
